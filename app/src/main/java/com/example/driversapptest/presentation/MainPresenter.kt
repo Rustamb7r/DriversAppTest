@@ -18,15 +18,11 @@ class MainPresenter @Inject constructor(
         private val getGoodsUseCase: GetGoodsUseCase,
         private val setPrealertPrintUseCase: SetPrealertPrintUseCase,
         private val dispatchersProvider: DispatchersProvider
-) : CoroutineScope {
+) : IPresenter<MainView>, CoroutineScope {
 
     private val TAG = "MainPresenter"
 
-    private var view: MainView? = null
-
-    fun setMainView(view: MainView) {
-        this.view = view
-    }
+    override var view: MainView? = null
 
     private val job = Job() // a lifecycle of a MainPresenter coroutine
 
@@ -60,6 +56,14 @@ class MainPresenter @Inject constructor(
 //        val dateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
 //        val cal = Calendar.getInstance()
 //        return dateFormat.format(cal.time)
+    }
+
+    override fun onCreate(view: MainView) {
+        this.view = view
+    }
+
+    override fun onDestroy() {
+        view = null
     }
 
 }

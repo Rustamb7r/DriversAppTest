@@ -10,7 +10,6 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), MainView {
 
-
     @Inject
     lateinit var mainPresenter: MainPresenter
     private var binding: ActivityMainBinding? = null
@@ -20,19 +19,16 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     private val adapter = OrderAdapter(goodSelected)
-
-
+    private var toast: Toast? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (application as BaseApplication).appComponent.inject(this)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
+        mainPresenter.onCreate(this)
 
         binding?.recyclerViewOrder?.adapter = adapter
-
-        // DONT CALL PRESENTER FUNCS BEFORE THIS
-        mainPresenter.setMainView(this)
 
         mainPresenter.loadGoods(terminalCode = "819") // TODO: убрать хардкод
     }
@@ -45,12 +41,16 @@ class MainActivity : AppCompatActivity(), MainView {
         mainPresenter.loadGoods(terminalCode = "819") // TODO: убрать хардкод
     }
 
-    private var toast: Toast? = null
     override fun showError() {
         if (toast != null) {
             toast?.cancel()
         }
         toast = Toast.makeText(this, "Ошибка при обмене с 1С", Toast.LENGTH_SHORT)
         toast?.show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mainPresenter.onDestroy()
     }
 }
