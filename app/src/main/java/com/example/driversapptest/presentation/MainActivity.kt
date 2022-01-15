@@ -11,11 +11,12 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(), MainView {
 
     @Inject
-    lateinit var mainPresenter: MainPresenter
+    lateinit var mainPresenter: IPresenter<MainView>
     private var binding: ActivityMainBinding? = null
 
     private val goodSelected= { numberClient: String, orderNumber: String ->
         mainPresenter.setPrealertPrint(numberClient, orderNumber, "819")
+        Unit
     }
 
     private val adapter = OrderAdapter(goodSelected)
