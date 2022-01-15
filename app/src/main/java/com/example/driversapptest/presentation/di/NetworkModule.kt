@@ -5,7 +5,9 @@ import com.example.driversapptest.data.BASE_URL
 import com.example.driversapptest.data.GoodsService
 import com.example.driversapptest.domain.interactor.GetGoodsUseCase
 import com.example.driversapptest.domain.interactor.SetPrealertPrintUseCase
+import com.example.driversapptest.presentation.IPresenter
 import com.example.driversapptest.presentation.MainPresenter
+import com.example.driversapptest.presentation.MainView
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
@@ -43,7 +45,7 @@ class NetworkModule {
             getGoodsUseCase: GetGoodsUseCase,
             setPrealertUseCase: SetPrealertPrintUseCase,
             dispatcher: DispatchersProvider
-    ): MainPresenter {
+    ): IPresenter<MainView> {
         return MainPresenter(
                 getGoodsUseCase = getGoodsUseCase,
                 setPrealertPrintUseCase = setPrealertUseCase,

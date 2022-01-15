@@ -29,7 +29,7 @@ class MainPresenter @Inject constructor(
     override val coroutineContext: CoroutineContext // guaranties that when it's lifecycle ends everything gonna be cancelled
         get() = job + dispatchersProvider.main
 
-    fun loadGoods(terminalCode: String) {
+    override fun loadGoods(terminalCode: String) {
         launch {
 
             val list: List<Goods> = try {
@@ -43,7 +43,7 @@ class MainPresenter @Inject constructor(
         }
     }
 
-    fun setPrealertPrint(numberClient: String, orderNumber: String, terminalCode: String) {
+    override fun setPrealertPrint(numberClient: String, orderNumber: String, terminalCode: String) {
         launch {
             if (setPrealertPrintUseCase.execute(numberClient, orderNumber, terminalCode)) {
                 view?.onPrealertSuccess(orderNumber = orderNumber, numberСlient = numberClient)
